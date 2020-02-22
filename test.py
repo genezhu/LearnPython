@@ -50,7 +50,10 @@ def connect():
         firstName = 'Donald'
         lastName = 'Trump'
         phoneNumber = '202-456-1111'
-        cur.execute("INSERT INTO users(first_name, last_name, phone_number) VALUES(%s, %s, %s)", (firstName, lastName, phoneNumber))
+        # cur.execute("INSERT INTO users(first_name, last_name, phone_number) VALUES(%s, %s, %s)", (firstName, lastName, phoneNumber))
+        query = "INSERT INTO users(first_name, last_name, phone_number) VALUES(%s, %s, %s)"
+        values = (firstName, lastName, phoneNumber)
+        cur.execute(query, values)
 
         # Method 2 : dict
         firstName = 'Nancy'
