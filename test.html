@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        function GetURLParameter(sParam) {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            $("#submit").click(function (e) {
+                e.preventDefault();
+                var password = $("#password").val();
+                var confirm = $("#confirm").val();
+                if (password !== confirm) {
+                    alert("passwords don't match!");
+                    return;
+                }
+
+                token = GetURLParameter("token");
+
+
+                $.ajax({
+                    url: "http://localhost:5000/change_password",
+                    type: "PUT",
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: { Authorization: "Bearer $token" },
+                    data: {
+                        password: "$password"
+                    },
+                    error: function (err) {
+                        alert(err.status)
+                    },
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+
+            });
+        });
+    </script>
+</head>
+<body>
+    <form action="">
+        <label for="password">Password:</label><br>
+        <input type="text" id="password" name="password"><br>
+        <label for="confirm">Password Confirmation:</label><br>
+        <input type="text" id="confirm" name="confirm"><br><br>
+        <input type="submit" id="submit" value="Submit">
+    </form>
+</body>
+</html>
